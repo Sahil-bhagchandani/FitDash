@@ -38,7 +38,7 @@ public class OpenRouterNutritionService {
 
             // ✅ Construct Request Body (with temperature and user ID)
             String requestBody = String.format("{\n" +
-                "  \"model\": \"openai/gpt-3.5-turbo\",\n" +
+                "  \"model\": \"nvidia/llama-3.1-nemotron-nano-8b-v1:free\",\n" +
                 "  \"temperature\": 0,\n" +
                 "  \"messages\": [\n" +
                 "    {\"role\": \"user\", \"content\": \"%s\"}\n" +
