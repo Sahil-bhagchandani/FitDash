@@ -180,7 +180,7 @@ const CalorieTracker = () => {
                                     />
                                 </svg>
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="text-2xl text-black font-bold text-center">
+                                    <div className="text-2xl font-bold text-center">
                                         {macros.calories} kcal
                                         <div className="text-sm text-gray-500 mb-5">
                                             Remaining: <br></br>{calorieGoal - macros.calories} kcal
