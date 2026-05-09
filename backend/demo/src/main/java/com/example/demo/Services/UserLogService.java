@@ -25,7 +25,7 @@ public class UserLogService {
 
     public List<UserLogs> getLogsByUsername(String username) {
         Optional<User> optionaluser = userRepository.findByUsername(username);
-        if (optionaluser == null) return null;
+        if (optionaluser.isEmpty()) return List.of();
 
         String userId = optionaluser.get().getId();
         return userLogRepository.findByUserId(userId);
@@ -70,7 +70,7 @@ public class UserLogService {
 
     public List<UserLogs> getLogsByUsernameAndDate(String username, String date) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
-        if (!optionalUser.isPresent());
+        if (optionalUser.isEmpty()) return List.of();
 
         String userId = optionalUser.get().getId();
         return userLogRepository.findByUserIdAndDate(userId, date);

@@ -38,7 +38,6 @@ public class FoodService {
                 request.getPortion()
         );
 
-        System.out.println("Food before saving: " + food);
         // Step 2: Save food to DB
         foodRepo.save(food);
         // Step 3: Create user log
@@ -56,8 +55,6 @@ public class FoodService {
         log.setLoggedAt(LocalDateTime.now());
         log.setDate(LocalDate.now().toString());
         log.setCategory(request.getCategory());
-        System.out.println("Log before saving: " + log);
-
         logRepo.save(log);
 
     }
