@@ -1,79 +1,104 @@
-import { FaGoogle, FaFacebookF, FaXTwitter } from 'react-icons/fa6';
+import { ArrowRight, LockKeyhole } from "lucide-react";
 import { useState } from "react";
 import { loginUser } from "../services/loginService";
 import { useNavigate } from "react-router-dom";
 import bg from "../assets/banana.avif";
+
 function Login() {
-    const navigate = useNavigate();
-    const [credentials, setCredentials] = useState({
-        username: "",
-        password: "",
-    });
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
 
-    const handleChange = (e) => {
-        setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            console.log(credentials);
-            const response = await loginUser(credentials);
-            localStorage.setItem("userId", response.userId);
-            localStorage.setItem("username", response.username);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await loginUser(credentials);
+      localStorage.setItem("userId", response.userId);
+      localStorage.setItem("username", response.username);
 
-            
-            setTimeout(() => {
-                navigate("/bmr");
-              }, 500);
-        } catch (error) {
-            alert("Login Failed: " + error.message);
-        }
-    };
+      setTimeout(() => {
+        navigate("/bmr");
+      }, 500);
+    } catch (error) {
+      alert("Login Failed: " + error.message);
+    }
+  };
 
-
-    return (
-        <div
-            className="flex min-h-screen w-screen items-center justify-center bg-gradient-to-tr from-[#FFF] via-[#F2C94C] to-[#eeb007] px-4"
-            style={{
-                
-                backgroundSize: "cover",
-                backgroundPosition: "center"
-            }}
-        >
-            <div className="block justify-center h-140  w-1/3 bg-white shadow-2xl  rounded-2xl p-6 backdrop-blur-md bg-opacity-80 xl:rounded-tr-none xl:rounded-br-none">
-                <h2 className="text-2xl font-semibold text-center mb-2 text-black">🔐 <br></br>Log In</h2>
-                <p className="text-center text-gray-500 mb-4 text-s">Welcome back! Log in to continue.</p>
-
-                <form className="space-y-2 w-full" onSubmit={handleSubmit}>
-                    <label className=" text-gray-600">Username</label>
-                    <input type="text" name="username" value={credentials.username} placeholder="username" onChange={handleChange} className="text-black placeholder:text-gray-500 w-full p-2 border border-black rounded-lg text-s mt-2 mb-4" />
-                    <label className="text-gray-600">Password</label>
-                    <input type="password" name="password" value={credentials.password} placeholder="Password" onChange={handleChange} className="text-black placeholder:text-gray-500 w-full p-2 border border-black rounded-lg text-s mt-2 mb-7" />
-
-
-
-                    <button type="submit" className=" h-10 w-1/4 mx-auto block align:center bg-black text-white p-2 hover:bg-gray-200 hover:text-black rounded-lg text-l font-medium  transition-all duration-100 delay-60 mb-4">Log In</button>
-                </form>
-                
-                <p className="text-center text-gray-500 mt-3 mb-6 text-s">Don't have an account? <a href="/" className="text-blue-500 cursor-pointer">Signup</a></p>
-                <div className="flex justify-center">
-    
-                <button className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-red-600 text-2xl hover:bg-gray-300 transition mr-10">
-              <FaGoogle />
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-blue-700 text-2xl hover:bg-gray-300 transition mr-10">
-              <FaFacebookF />
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-black text-2xl hover:bg-gray-300 transition">
-              <FaXTwitter />
-            </button>
-                </div>
+  return (
+    <main className="min-h-screen bg-slate-950">
+      <div className="grid min-h-screen lg:grid-cols-[0.95fr_1.05fr]">
+        <section className="flex items-center justify-center bg-gradient-to-br from-amber-50 via-white to-orange-100 px-4 py-10">
+          <div className="w-full max-w-md rounded-2xl border border-white/70 bg-white p-8 shadow-2xl shadow-orange-900/10">
+            <div className="mb-8 text-center">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white">
+                <LockKeyhole className="h-6 w-6" />
+              </div>
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-orange-500">Welcome back</p>
+              <h2 className="mt-2 text-3xl font-black text-slate-950">Log in to FitDash</h2>
             </div>
-            <img src={bg} alt="" className="h-140 w-[500px] object-cover xl:rounded-tr-2xl xl:rounded-br-2xl xl:block hidden shadow-2xl " />
-        </div>
-    );
-    
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <label className="block text-sm font-semibold text-slate-600">
+                Username
+                <input
+                  type="text"
+                  name="username"
+                  value={credentials.username}
+                  placeholder="username"
+                  onChange={handleChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100"
+                  required
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-slate-600">
+                Password
+                <input
+                  type="password"
+                  name="password"
+                  value={credentials.password}
+                  placeholder="Password"
+                  onChange={handleChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100"
+                  required
+                />
+              </label>
+
+              <button
+                type="submit"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-3 font-bold text-white transition hover:bg-orange-500"
+              >
+                Log In
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-slate-500">
+              Do not have an account?{" "}
+              <a href="/" className="font-bold text-orange-600 hover:text-orange-700">
+                Sign up
+              </a>
+            </p>
+          </div>
+        </section>
+
+        <section className="relative hidden overflow-hidden lg:block">
+          <img src={bg} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-slate-950/35" />
+          <div className="relative flex h-full flex-col justify-end p-12 text-white">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-white/70">Daily progress</p>
+            <h1 className="max-w-xl text-5xl font-black leading-tight">Your goals stay visible, simple, and measurable.</h1>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
 }
 
 export default Login;

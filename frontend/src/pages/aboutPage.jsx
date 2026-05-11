@@ -1,61 +1,79 @@
+import { Bot, Droplet, LineChart, Target } from "lucide-react";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
+
 export default function AboutPage() {
-    return (
-        <div className="flex min-h-screen w-screen bg-gradient-to-br from-blue-100 to-white">
-            <Sidebar />
+  const features = [
+    {
+      title: "Calorie tracking",
+      text: "Log custom meals and review calories, protein, carbs, and fats by date.",
+      icon: Target,
+      color: "bg-orange-50 text-orange-600",
+    },
+    {
+      title: "Water intake",
+      text: "Track glasses through the day and compare hydration across the week.",
+      icon: Droplet,
+      color: "bg-sky-50 text-sky-600",
+    },
+    {
+      title: "AI suggestions",
+      text: "Use your logs as context for personalized nutrition and habit guidance.",
+      icon: Bot,
+      color: "bg-violet-50 text-violet-600",
+    },
+    {
+      title: "BMI and BMR",
+      text: "Calculate daily calorie and water goals using your profile and activity level.",
+      icon: LineChart,
+      color: "bg-emerald-50 text-emerald-600",
+    },
+  ];
 
-            <div className="flex-1 flex flex-col">
-                <Navbar />
-                <div className="p-5  h-full">
-                    <div className="max-w-5xll h-150  mx-auto bg-white shadow-md shadow-black rounded-lg p-4">
-                        <h1 className="text-3xl font-bold mb-4 text-blue-600">About FitDash</h1>
-                        <p className="text-gray-700 text-lg mb-6">
-                            <strong>FitDash</strong> is your all-in-one health companion designed to help you monitor your calories, manage your water intake, and get smart suggestions through AI to lead a healthier life.
-                        </p>
+  return (
+    <div className="flex min-h-screen bg-slate-100">
+      <Sidebar />
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="bg-blue-50 p-4 rounded-lg shadow-sm">
-                                <h2 className="text-xl font-semibold mb-2 text-blue-700">👣 Our Mission</h2>
-                                <p className="text-gray-700">
-                                    Empower individuals to take charge of their wellness with intelligent, easy-to-use tools that promote daily healthy habits.
-                                </p>
-                            </div>
-
-                            <div className="bg-green-50 p-4 rounded-lg shadow-sm">
-                                <h2 className="text-xl font-semibold mb-2 text-green-700">🔍 Features</h2>
-                                <ul className="list-disc list-inside text-gray-700">
-                                    <li>Calorie Tracker with visual progress</li>
-                                    <li>Water Intake goals and progress</li>
-                                    <li>AI-powered health suggestions</li>
-                                    <li>Interactive calendar for tracking</li>
-                                </ul>
-                            </div>
-
-                            <div className="bg-purple-50 p-4 rounded-lg shadow-sm">
-                                <h2 className="text-xl font-semibold mb-2 text-purple-700">📈 Why FitDash?</h2>
-                                <p className="text-gray-700">
-                                    Most fitness apps are either overwhelming or underwhelming. FitDash strikes the perfect balance by being intelligent yet simple, goal-oriented yet stress-free.
-                                </p>
-                            </div>
-
-                            <div className="bg-yellow-50 p-4 rounded-lg shadow-sm">
-                                <h2 className="text-xl font-semibold mb-2 text-yellow-700">👨‍💻 Built With</h2>
-                                <ul className="list-disc list-inside text-gray-700">
-                                    <li>React + Tailwind CSS</li>
-                                    <li>Recharts for visuals</li>
-                                    <li>React Router DOM</li>
-                                    <li>AI suggestion engine (integrated)</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className="mt-8 text-sm text-gray-500">
-                            &copy; {new Date().getFullYear()} FitDash. All rights reserved.
-                        </div>
-                    </div>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Navbar />
+        <main className="p-4 lg:p-8">
+          <section className="overflow-hidden rounded-2xl bg-slate-950 shadow-xl">
+            <div className="grid lg:grid-cols-[1fr_360px]">
+              <div className="p-6 text-white lg:p-10">
+                <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-300">About FitDash</p>
+                <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight lg:text-5xl">
+                  A practical dashboard for everyday nutrition decisions.
+                </h2>
+                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">
+                  FitDash brings calorie tracking, hydration, body metrics, and AI guidance into one simple workflow so
+                  users can review their habits without jumping between tools.
+                </p>
+              </div>
+              <div className="bg-blue-600 p-6 text-white lg:p-10">
+                <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-100">Built with</p>
+                <div className="mt-5 space-y-3 text-sm font-semibold">
+                  <p className="rounded-xl bg-white/15 px-4 py-3">React + Vite</p>
+                  <p className="rounded-xl bg-white/15 px-4 py-3">Spring Boot + MongoDB</p>
+                  <p className="rounded-xl bg-white/15 px-4 py-3">OpenRouter AI</p>
+                  <p className="rounded-xl bg-white/15 px-4 py-3">Recharts visualizations</p>
                 </div>
+              </div>
             </div>
-        </div>
-    );
+          </section>
+
+          <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {features.map(({ title, text, icon: Icon, color }) => (
+              <article key={title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${color}`}>
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-lg font-black text-slate-950">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500">{text}</p>
+              </article>
+            ))}
+          </section>
+        </main>
+      </div>
+    </div>
+  );
 }

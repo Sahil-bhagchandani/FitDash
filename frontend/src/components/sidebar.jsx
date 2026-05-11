@@ -1,137 +1,152 @@
-import React, { useState, useEffect } from "react";
-import { Home, Brain, Droplet, Info } from "lucide-react";
-import { Link } from "react-router-dom";
-import { getUserByUsername } from "../services/userService"; // Adjust path as needed
+import { useEffect, useState } from "react";
+import { Bot, Droplet, Gauge, Home, Info, LogOut, Target, UserRound, X } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { getUserByUsername } from "../services/userService";
+
+const navItems = [
+  { to: "/dashboard", label: "Dashboard", icon: Home },
+  { to: "/calorietracker", label: "Calorie Tracker", icon: Target },
+  { to: "/aiSuggestion", label: "AI Suggestion", icon: Bot },
+  { to: "/waterintake", label: "Water Intake", icon: Droplet },
+  { to: "/bmr", label: "BMI and BMR", icon: Gauge },
+  { to: "/about", label: "About", icon: Info },
+];
 
 const Sidebar = () => {
-    const [showProfile, setShowProfile] = useState(false);
-    const [userData, setUserData] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [userData, setUserData] = useState(null);
 
-    const username = localStorage.getItem("username");
-    const avatarUrl = "https://i.pravatar.cc/150?img=3";
+  const username = localStorage.getItem("username") || "Guest";
+  const avatarUrl = "https://i.pravatar.cc/150?img=3";
 
-    const handleLogout = () => {
-        localStorage.clear();
-        window.location.href = "/login";
-    };
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
 
-    useEffect(() => {
-        if (showProfile) {
-            (async () => {
-                try {
-                    const data = await getUserByUsername(username);
-                    setUserData(data);
-                } catch (err) {
-                    console.error("Error loading user:", err);
+  useEffect(() => {
+    if (!showProfile || !username || username === "Guest") return;
+
+    (async () => {
+      try {
+        const data = await getUserByUsername(username);
+        setUserData(data);
+      } catch (err) {
+        console.error("Error loading user:", err);
+      }
+    })();
+  }, [showProfile, username]);
+
+  return (
+    <>
+      <aside className="hidden min-h-screen w-72 shrink-0 border-r border-slate-200 bg-white/95 p-5 shadow-sm lg:flex lg:flex-col lg:justify-between">
+        <div>
+          <div className="mb-8">
+            <p className="text-2xl font-black tracking-tight text-slate-950">FitDash</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-[0.16em] text-blue-500">Nutrition OS</p>
+          </div>
+
+          <nav className="space-y-2">
+            {navItems.map(({ to, label, icon: Icon }) => (
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
+                    isActive
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+                  }`
                 }
-            })();
-        }
-    }, [showProfile]);
+              >
+                <Icon className="h-5 w-5" />
+                <span>{label}</span>
+              </NavLink>
+            ))}
+          </nav>
+        </div>
 
-    return (
-        <>
-            {/* Sidebar */}
-            <aside className="w-80 bg-white shadow-2xl p-6 flex flex-col justify-between rounded-tr-none rounded-br-3xl">
+        <button
+          onClick={() => setShowProfile(true)}
+          className="flex w-full items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-left transition hover:border-blue-200 hover:bg-blue-50"
+        >
+          <img src={avatarUrl} alt="User avatar" className="h-11 w-11 rounded-full border-2 border-white shadow-sm" />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-bold text-slate-800">{username}</p>
+            <p className="text-xs text-slate-500">Member</p>
+          </div>
+        </button>
+      </aside>
+
+      <nav className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-6 rounded-2xl border border-slate-200 bg-white/95 p-2 shadow-2xl backdrop-blur lg:hidden">
+        {navItems.map(({ to, label, icon: Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            title={label}
+            className={({ isActive }) =>
+              `flex h-12 items-center justify-center rounded-xl transition ${
+                isActive ? "bg-blue-600 text-white" : "text-slate-500 hover:bg-slate-100 hover:text-slate-950"
+              }`
+            }
+          >
+            <Icon className="h-5 w-5" />
+          </NavLink>
+        ))}
+      </nav>
+
+      {showProfile && userData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="mb-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <img src={avatarUrl} className="h-16 w-16 rounded-full border-4 border-blue-100" alt="User avatar" />
                 <div>
-                    <h2 className="text-2xl font-bold mb-8 text-blue-600 tracking-wide">FitDash</h2>
-                    <nav className="space-y-5 text-sm font-medium">
-                        <Link to="/calorietracker" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
-                            <Home className="w-5 h-5" /> Calorie Tracker
-                        </Link>
-                        <a href="/aiSuggestion" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
-                            <Brain className="w-5 h-5" /> AI Suggestion
-                        </a>
-                        <a href="/waterintake" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
-                            <Droplet className="w-5 h-5" /> Water Intake
-                        </a>
-                        <a href="/bmr" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
-                            <Info className="w-5 h-5" /> BMI and BMR
-                        </a>
-                        <a href="/about" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition">
-                            <Info className="w-5 h-5" /> About
-                        </a>
-                    </nav>
+                  <h2 className="text-xl font-bold text-slate-950">Profile</h2>
+                  <p className="text-sm text-slate-500">Your current FitDash details</p>
                 </div>
+              </div>
+              <button
+                className="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                onClick={() => setShowProfile(false)}
+                aria-label="Close profile"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
 
-                <div
-                    onClick={() => setShowProfile(true)}
-                    className="mt-10 border-t pt-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 p-2 rounded-xl transition"
-                >
-                    <img src={avatarUrl} alt="User Avatar" className="w-11 h-11 rounded-full border-2 border-blue-200" />
-                    <div>
-                        <p className="text-sm font-semibold text-gray-700">{username}</p>
-                        <p className="text-xs text-gray-400">Member</p>
-                    </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                ["Username", userData.username],
+                ["Email", userData.email],
+                ["Age", userData.age],
+                ["Height", `${userData.height} cm`],
+                ["Weight", `${userData.weight} kg`],
+                ["Gender", userData.gender],
+                ["Goal", userData.goal],
+                ["Activity Level", userData.exerciseLevel || "Not set"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{label}</p>
+                  <p className="mt-1 text-sm font-semibold text-slate-800">{value}</p>
                 </div>
-            </aside>
+              ))}
+            </div>
 
-            {/* Fullscreen Modal with Blur */}
-            {showProfile && userData && (
-                <div className="fixed inset-0 z-50 backdrop-blur-sm bg-black/30 flex items-center justify-center">
-                    <div className="bg-white rounded-3xl shadow-xl p-10 w-[900px] max-w-[95%] relative">
-                        {/* Close Button */}
-                        <button
-                            className="absolute top-4 right-6 text-2xl text-gray-500 hover:text-gray-800"
-                            onClick={() => setShowProfile(false)}
-                        >
-                            &times;
-                        </button>
-
-                        <div className="flex flex-col items-center mb-8">
-                            <img src={avatarUrl} className="w-24 h-24 rounded-full border-4 border-blue-300" alt="User Avatar" />
-                            <h2 className="mt-4 text-xl font-bold text-gray-700">Profile Information</h2>
-                        </div>
-
-                        {/* Form Fields */}
-                        <div className="grid grid-cols-2 gap-6">
-                            <div>
-                                <label className="text-sm text-gray-600">Username</label>
-                                <input type="text" value={userData.username} disabled className="w-full text-black border p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Email</label>
-                                <input type="email" value={userData.email} disabled className="w-full border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Age</label>
-                                <input type="number" value={userData.age} disabled className="w-full border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Height (cm)</label>
-                                <input type="number" value={userData.height} disabled className="w-full border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Weight (kg)</label>
-                                <input type="number" value={userData.weight} disabled className="w-full border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Gender</label>
-                                <input type="text" value={userData.gender} disabled className="w-full border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Goal</label>
-                                <input type="text" value={userData.goal} disabled className="w-full  border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                            <div>
-                                <label className="text-sm text-gray-600">Activity Level</label>
-                                <input type="text" value={userData.exerciseLevel} disabled className="w-full border text-black p-2 rounded-lg mt-1 bg-gray-100" />
-                            </div>
-                        </div>
-
-                        {/* Logout Button Only */}
-                        <div className="mt-10 flex justify-end">
-                            <button
-                                className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition"
-                                onClick={handleLogout}
-                            >
-                                Logout
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </>
-    );
+            <div className="mt-6 flex justify-end">
+              <button
+                className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Sidebar;
