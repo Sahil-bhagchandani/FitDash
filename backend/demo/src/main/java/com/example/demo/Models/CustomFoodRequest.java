@@ -6,6 +6,14 @@ public class CustomFoodRequest {
     private String description; // ingredient-quantity format
     private String portion;
     private String category;
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
     public String getCategory() {
         return category;
     }

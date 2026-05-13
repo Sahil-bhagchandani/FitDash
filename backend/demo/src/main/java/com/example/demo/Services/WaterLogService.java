@@ -32,6 +32,28 @@ public class WaterLogService {
         return waterLogRepository.save(log);
     }
 
+    public boolean removeWater(String username, double amount) {
+        return removeWater(username, amount, LocalDate.now().toString());
+    }
+
+    boolean removeWater(String username, double amount, String date) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (!optionalUser.isPresent()) return false;
+
+        String userId = optionalUser.get().getId();
+        List<WaterLogs> logs = waterLogRepository.findByUserIdAndDate(userId, date);
+
+        for (int i = logs.size() - 1; i >= 0; i--) {
+            WaterLogs log = logs.get(i);
+            if (Math.abs(log.getAmount() - amount) < 0.001) {
+                waterLogRepository.delete(log);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public List<WaterLogs> getWaterLogsByUsername(String username) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (!optionalUser.isPresent()) return null;

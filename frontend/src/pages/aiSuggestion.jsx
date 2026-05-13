@@ -11,6 +11,13 @@ const predefinedQuestions = [
   "Give me a workout routine.",
 ];
 
+const formatLocalDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 export default function AISuggestions() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -31,7 +38,7 @@ export default function AISuggestions() {
       setMessages((prev) => [...prev, thinkingMsg]);
 
       try {
-        const aiResponse = await getChatbotSuggestion(username, text);
+        const aiResponse = await getChatbotSuggestion(username, text, formatLocalDate(new Date()));
         const aiMsg = {
           text: aiResponse || "Sorry, I couldn't understand that.",
           fromUser: false,
@@ -48,7 +55,7 @@ export default function AISuggestions() {
           }
           return updatedMessages;
         });
-      } catch (error) {
+      } catch {
         const errorMsg = {
           text: "Something went wrong, please try again later.",
           fromUser: false,

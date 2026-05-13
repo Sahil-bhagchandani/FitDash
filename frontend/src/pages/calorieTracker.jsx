@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar, Plus, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { Calendar, ListChecks, Plus, Utensils, X } from "lucide-react";
+import { motion as Motion } from "framer-motion";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import { getUserByUsername } from "../services/userService";
-import { getMacroSummary, getTotalCalories } from "../services/userLogService";
+import { getMacroSummary, getTotalCalories, getUserLogsByDate } from "../services/userLogService";
 import { addCustomFoodEntry } from "../services/foodService";
+
+const formatLocalDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const CalorieTracker = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [calorieGoal, setCalorieGoal] = useState(2000);
   const [totalCalories, setTotalCalories] = useState(0);
+  const [dailyFoodLogs, setDailyFoodLogs] = useState([]);
   const [macros, setMacros] = useState({
     calories: 0,
     protein: 0,
@@ -37,7 +45,7 @@ const CalorieTracker = () => {
 
   const percentage = (value, goal) => Math.floor(Math.min((value / goal) * 100, 100));
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const userData = await getUserByUsername(username);
       if (userData?.dailyCalories) {
@@ -46,11 +54,11 @@ const CalorieTracker = () => {
     } catch (error) {
       console.error("Error fetching user:", error);
     }
-  };
+  }, [username]);
 
-  const fetchMacroData = async () => {
+  const fetchMacroData = useCallback(async () => {
     try {
-      const formattedDate = selectedDate.toISOString().split("T")[0];
+      const formattedDate = formatLocalDate(selectedDate);
       const macroData = await getMacroSummary(username, formattedDate);
       if (macroData) {
         setMacros({
@@ -63,16 +71,26 @@ const CalorieTracker = () => {
     } catch (error) {
       console.error("Error fetching macros:", error);
     }
-  };
+  }, [selectedDate, username]);
+
+  const fetchDailyFoodLogs = useCallback(async () => {
+    try {
+      const formattedDate = formatLocalDate(selectedDate);
+      const logs = await getUserLogsByDate(username, formattedDate);
+      setDailyFoodLogs(Array.isArray(logs) ? logs : []);
+    } catch (error) {
+      console.error("Error fetching food logs:", error);
+    }
+  }, [selectedDate, username]);
 
   useEffect(() => {
     fetchUserData();
-  }, [username]);
+  }, [fetchUserData]);
 
   useEffect(() => {
     const fetchCalories = async () => {
       try {
-        const formattedDate = selectedDate.toISOString().split("T")[0];
+        const formattedDate = formatLocalDate(selectedDate);
         const total = await getTotalCalories(username, formattedDate);
         setTotalCalories(total || 0);
       } catch (error) {
@@ -84,12 +102,16 @@ const CalorieTracker = () => {
 
   useEffect(() => {
     fetchMacroData();
-  }, [username, selectedDate]);
+    fetchDailyFoodLogs();
+  }, [fetchDailyFoodLogs, fetchMacroData]);
 
   const handleAddEntry = async () => {
     try {
       setIsSubmitting(true);
-      await addCustomFoodEntry(formData);
+      await addCustomFoodEntry({
+        ...formData,
+        date: formatLocalDate(selectedDate),
+      });
       setShowPopup(false);
       setFormData({
         userId: localStorage.getItem("userId"),
@@ -100,6 +122,9 @@ const CalorieTracker = () => {
       });
       await fetchUserData();
       await fetchMacroData();
+      await fetchDailyFoodLogs();
+      const total = await getTotalCalories(username, formatLocalDate(selectedDate));
+      setTotalCalories(total || 0);
     } catch (err) {
       console.error("Error submitting food entry:", err);
       alert("Could not save food entry. Please try again.");
@@ -162,7 +187,7 @@ const CalorieTracker = () => {
                   <div className="relative h-64 w-64">
                     <svg className="h-full w-full -rotate-90">
                       <circle cx="50%" cy="50%" r="100" stroke="#e2e8f0" strokeWidth="20" fill="none" />
-                      <motion.circle
+                      <Motion.circle
                         cx="50%"
                         cy="50%"
                         r="100"
@@ -239,6 +264,46 @@ const CalorieTracker = () => {
                 ))}
               </div>
             </aside>
+          </section>
+
+          <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <ListChecks className="h-5 w-5 text-blue-600" />
+                  <h3 className="text-lg font-black text-slate-950">Tracked Food For The Day</h3>
+                </div>
+                <p className="mt-1 text-sm text-slate-500">
+                  {selectedDate.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </p>
+              </div>
+              <p className="text-sm font-black text-slate-950">{Math.trunc(totalCalories)} kcal</p>
+            </div>
+
+            {dailyFoodLogs.length === 0 ? (
+              <div className="flex items-center gap-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm font-semibold text-slate-500">
+                <Utensils className="h-5 w-5 text-slate-400" />
+                No food entries for this date yet.
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-100">
+                {dailyFoodLogs.map((log) => (
+                  <div key={log.id || `${log.foodName}-${log.loggedAt}`} className="flex items-center justify-between gap-4 py-4">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black text-slate-950">{log.foodName}</p>
+                      <p className="mt-1 text-xs font-semibold capitalize text-slate-500">
+                        {[log.category, log.portion].filter(Boolean).join(" - ")}
+                      </p>
+                    </div>
+                    <p className="shrink-0 text-sm font-black text-orange-600">{Math.trunc(log.calories || 0)} kcal</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         </main>
 

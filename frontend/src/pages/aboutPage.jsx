@@ -62,15 +62,19 @@ export default function AboutPage() {
           </section>
 
           <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {features.map(({ title, text, icon: Icon, color }) => (
-              <article key={title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${color}`}>
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-black text-slate-950">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-500">{text}</p>
-              </article>
-            ))}
+            {features.map((feature) => {
+              const Icon = feature.icon;
+
+              return (
+                <article key={feature.title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${feature.color}`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-lg font-black text-slate-950">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-500">{feature.text}</p>
+                </article>
+              );
+            })}
           </section>
         </main>
       </div>

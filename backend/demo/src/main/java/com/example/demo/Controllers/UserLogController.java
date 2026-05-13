@@ -29,7 +29,7 @@ public class UserLogController {
         return userLogService.getTotalCaloriesByUsernameAndDate(username, date);
     }
 
-    @GetMapping("by-name-date/{username}/{date}")
+    @GetMapping("/by-name-date/{username}/{date}")
     public List<UserLogs> getUserLogsByDate(@PathVariable String username, @PathVariable String date) {
         return userLogService.getLogsByUsernameAndDate(username, date);
     }

@@ -53,7 +53,8 @@ public class FoodService {
         log.setCarbs(food.getCarbs());
         log.setFat(food.getFat());
         log.setLoggedAt(LocalDateTime.now());
-        log.setDate(LocalDate.now().toString());
+        String logDate = request.getDate();
+        log.setDate(logDate == null || logDate.isBlank() ? LocalDate.now().toString() : logDate);
         log.setCategory(request.getCategory());
         logRepo.save(log);
 

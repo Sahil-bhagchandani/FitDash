@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +63,39 @@ class WaterLogServiceTest {
         double total = waterLogService.getTotalWaterIntakeByUsernameAndDate("sahil", "2026-05-09");
 
         assertThat(total).isEqualTo(750);
+    }
+
+    @Test
+    void removeWaterDeletesOneMatchingLogForDate() {
+        User user = new User();
+        user.setId("user-1");
+
+        WaterLogs olderGlass = waterLog(250);
+        WaterLogs latestGlass = waterLog(250);
+
+        when(userRepository.findByUsername("sahil")).thenReturn(Optional.of(user));
+        when(waterLogRepository.findByUserIdAndDate("user-1", "2026-05-13"))
+                .thenReturn(List.of(olderGlass, latestGlass));
+
+        boolean removed = waterLogService.removeWater("sahil", 250, "2026-05-13");
+
+        assertThat(removed).isTrue();
+        verify(waterLogRepository).delete(latestGlass);
+        verify(waterLogRepository, never()).delete(olderGlass);
+    }
+
+    @Test
+    void removeWaterReturnsFalseWhenNoMatchingLogExists() {
+        User user = new User();
+        user.setId("user-1");
+
+        when(userRepository.findByUsername("sahil")).thenReturn(Optional.of(user));
+        when(waterLogRepository.findByUserIdAndDate("user-1", "2026-05-13"))
+                .thenReturn(List.of(waterLog(500)));
+
+        boolean removed = waterLogService.removeWater("sahil", 250, "2026-05-13");
+
+        assertThat(removed).isFalse();
     }
 
     private WaterLogs waterLog(double amount) {

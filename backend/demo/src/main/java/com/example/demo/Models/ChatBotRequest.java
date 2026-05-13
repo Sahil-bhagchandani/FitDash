@@ -3,6 +3,7 @@ package com.example.demo.Models;
 public class ChatBotRequest {
     private String username;
     private String userPrompt;
+    private String date;
 
     // Getters and Setters
     public String getUsername() {
@@ -19,5 +20,13 @@ public class ChatBotRequest {
 
     public void setUserPrompt(String userPrompt) {
         this.userPrompt = userPrompt;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

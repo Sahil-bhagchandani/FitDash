@@ -47,22 +47,26 @@ const Sidebar = () => {
           </div>
 
           <nav className="space-y-2">
-            {navItems.map(({ to, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
-                    isActive
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
-                  }`
-                }
-              >
-                <Icon className="h-5 w-5" />
-                <span>{label}</span>
-              </NavLink>
-            ))}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
+                      isActive
+                        ? "bg-blue-600 text-white shadow-sm"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+                    }`
+                  }
+                >
+                  <Icon className="h-5 w-5" />
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
           </nav>
         </div>
 
@@ -79,20 +83,24 @@ const Sidebar = () => {
       </aside>
 
       <nav className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-6 rounded-2xl border border-slate-200 bg-white/95 p-2 shadow-2xl backdrop-blur lg:hidden">
-        {navItems.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            title={label}
-            className={({ isActive }) =>
-              `flex h-12 items-center justify-center rounded-xl transition ${
-                isActive ? "bg-blue-600 text-white" : "text-slate-500 hover:bg-slate-100 hover:text-slate-950"
-              }`
-            }
-          >
-            <Icon className="h-5 w-5" />
-          </NavLink>
-        ))}
+        {navItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              title={item.label}
+              className={({ isActive }) =>
+                `flex h-12 items-center justify-center rounded-xl transition ${
+                  isActive ? "bg-blue-600 text-white" : "text-slate-500 hover:bg-slate-100 hover:text-slate-950"
+                }`
+              }
+            >
+              <Icon className="h-5 w-5" />
+            </NavLink>
+          );
+        })}
       </nav>
 
       {showProfile && userData && (

@@ -29,3 +29,21 @@ export async function getTotalWaterIntakeByDate(username,date)
     throw error;
   }
 }
+
+export async function removeWaterLog(username, amount) {
+  try {
+    const response = await myAxios.post(
+      `/api/waterlog/remove`,
+      { username, amount },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Remove Water Log Error:", error.message);
+    throw error;
+  }
+}

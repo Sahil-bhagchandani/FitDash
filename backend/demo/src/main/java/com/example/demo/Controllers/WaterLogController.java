@@ -23,6 +23,13 @@ public class WaterLogController {
         return waterLogService.logWater(username, amount);
     }
 
+    @PostMapping("/remove")
+    public boolean removeWater(@RequestBody Map<String, Object> body) {
+        String username = (String) body.get("username");
+        double amount = Double.parseDouble(body.get("amount").toString());
+        return waterLogService.removeWater(username, amount);
+    }
+
     @GetMapping("/total/{username}/{date}")
     public double getTotalWaterIntakeByDate(@PathVariable String username, @PathVariable String date) {
         return waterLogService.getTotalWaterIntakeByUsernameAndDate(username, date);

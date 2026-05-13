@@ -10,6 +10,16 @@ export async function getUserLogsByUsername(username) {
   }
 }
 
+export async function getUserLogsByDate(username, date) {
+  try {
+    const response = await myAxios.get(`/api/userlog/by-name-date/${username}/${date}`);
+    return response.data;
+  } catch (error) {
+    console.error("Fetch UserLogs By Date Error:", error.message);
+    throw error;
+  }
+}
+
 export async function getTotalCalories(username,date)
 {
   try {

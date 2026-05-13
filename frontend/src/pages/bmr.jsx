@@ -58,7 +58,7 @@ const BMR = () => {
       };
       await updateBmrGoal(formData.username, goalData);
       alert("Goal and BMR data updated!");
-    } catch (error) {
+    } catch {
       alert("Something went wrong while submitting.");
     }
   };

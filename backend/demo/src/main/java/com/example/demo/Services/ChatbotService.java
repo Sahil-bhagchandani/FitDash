@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +45,10 @@ public class ChatbotService {
     }
 
     public String getSuggestion(String username, String userPrompt) {
+        return getSuggestion(username, userPrompt, LocalDate.now().toString());
+    }
+
+    public String getSuggestion(String username, String userPrompt, String date) {
         try {
             User user = userRepository.findByUsername(username).orElse(null);
             if (user == null) return "User not found.";
@@ -52,10 +57,11 @@ public class ChatbotService {
             }
 
             String userId = user.getId();
-            List<UserLogs> foodLogs = userLogRepository.findByUserId(userId);
-            List<WaterLogs> waterLogs = waterLogRepository.findByUserId(userId);
+            String contextDate = resolveDate(date);
+            List<UserLogs> foodLogs = userLogRepository.findByUserIdAndDate(userId, contextDate);
+            List<WaterLogs> waterLogs = waterLogRepository.findByUserIdAndDate(userId, contextDate);
 
-            String context = buildContext(foodLogs, waterLogs);
+            String context = buildContext(contextDate, foodLogs, waterLogs);
             String fullPrompt = buildPrompt(userPrompt, context);
 
             String requestBody = mapper.writeValueAsString(Map.of(
@@ -89,7 +95,11 @@ public class ChatbotService {
         }
     }
 
-    private String buildContext(List<UserLogs> foodLogs, List<WaterLogs> waterLogs) {
+    private String resolveDate(String date) {
+        return date == null || date.isBlank() ? LocalDate.now().toString() : date;
+    }
+
+    String buildContext(String date, List<UserLogs> foodLogs, List<WaterLogs> waterLogs) {
         String foodSummary = foodLogs.stream()
                 .map(log -> String.format("%s (%s): %.1f cal, P: %.1f, C: %.1f, F: %.1f",
                         log.getFoodName(), log.getPortion(),
@@ -100,7 +110,16 @@ public class ChatbotService {
                 .map(w -> String.format("%s: %.1f ml", w.getDate(), w.getAmount()))
                 .collect(Collectors.joining("\n"));
 
-        return String.format("User's food log today:\n%s\n\nUser's water intake:\n%s", foodSummary, waterSummary);
+        if (foodSummary.isBlank()) {
+            foodSummary = "No food logged for this date.";
+        }
+        if (waterSummary.isBlank()) {
+            waterSummary = "No water logged for this date.";
+        }
+
+        return String.format(
+                "Consumption context for %s only. Do not count food or water from any other date.\nFood log:\n%s\n\nWater intake:\n%s",
+                date, foodSummary, waterSummary);
     }
 
     private String buildPrompt(String userPrompt, String context) {
@@ -108,7 +127,7 @@ public class ChatbotService {
             The user has provided this health-related prompt: "%s"
             Here is their current consumption context:
             %s
-            Based on this, give suggestions, advice, or next steps in a friendly, concise way.
+            Based only on the dated context above, give suggestions, advice, or next steps in a friendly, concise way.
         """, userPrompt, context);
     }
 }

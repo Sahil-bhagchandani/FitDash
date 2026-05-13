@@ -24,7 +24,7 @@ public class ChatBotController {
             // Call the service to get the suggestion
             logger.info("Received request: username={}, userPrompt={}", request.getUsername(), request.getUserPrompt());
             
-            String suggestion =  chatbotService.getSuggestion(request.getUsername(), request.getUserPrompt());
+            String suggestion =  chatbotService.getSuggestion(request.getUsername(), request.getUserPrompt(), request.getDate());
             logger.info("AI Suggestion: {}", suggestion);
             return suggestion;
         } catch (Exception e) {

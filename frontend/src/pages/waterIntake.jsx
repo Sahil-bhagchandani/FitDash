@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { format, subDays } from "date-fns";
 import { Minus, Plus, Waves } from "lucide-react";
 import {
@@ -14,6 +14,7 @@ import Sidebar from "../components/sidebar";
 import {
   getTotalWaterIntakeByDate,
   addWaterLog,
+  removeWaterLog,
 } from "../services/waterLogService";
 
 const WaterTracker = () => {
@@ -24,7 +25,7 @@ const WaterTracker = () => {
   const oneGlassAmount = 250;
   const maxGlasses = 12;
 
-  const updateWeekData = async () => {
+  const updateWeekData = useCallback(async () => {
     const requests = [];
 
     for (let i = 6; i >= 0; i--) {
@@ -46,9 +47,9 @@ const WaterTracker = () => {
 
     const newWeekData = await Promise.all(requests);
     setWeekData(newWeekData);
-  };
+  }, [username]);
 
-  const fetchTodayGlassCount = async () => {
+  const fetchTodayGlassCount = useCallback(async () => {
     const today = format(selectedDate, "yyyy-MM-dd");
     try {
       const totalMl = await getTotalWaterIntakeByDate(username, today);
@@ -57,12 +58,12 @@ const WaterTracker = () => {
       console.error("Error fetching today's water intake:", err);
       setGlasses(0);
     }
-  };
+  }, [selectedDate, username]);
 
   useEffect(() => {
     updateWeekData();
     fetchTodayGlassCount();
-  }, []);
+  }, [fetchTodayGlassCount, updateWeekData]);
 
   const handleAddGlass = async () => {
     if (glasses < maxGlasses) {
@@ -78,8 +79,23 @@ const WaterTracker = () => {
     }
   };
 
-  const handleRemoveGlass = () => {
+  const handleRemoveGlass = async () => {
+    if (glasses <= 0) return;
+
+    const previousGlasses = glasses;
     setGlasses((prev) => Math.max(prev - 1, 0));
+
+    try {
+      const removed = await removeWaterLog(username, oneGlassAmount);
+      if (!removed) {
+        setGlasses(previousGlasses);
+        return;
+      }
+      await updateWeekData();
+    } catch (error) {
+      console.error("Failed to remove water log:", error);
+      setGlasses(previousGlasses);
+    }
   };
 
   return (

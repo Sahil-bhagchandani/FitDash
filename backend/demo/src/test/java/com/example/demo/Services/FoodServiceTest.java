@@ -46,6 +46,7 @@ class FoodServiceTest {
         request.setDescription("paneer 100g, rice 150g");
         request.setPortion("1 bowl");
         request.setCategory("lunch");
+        request.setDate("2026-05-13");
 
         Foods food = new Foods();
         food.setName("Paneer Bowl");
@@ -77,7 +78,7 @@ class FoodServiceTest {
         assertThat(savedLog.getCarbs()).isEqualTo(55);
         assertThat(savedLog.getFat()).isEqualTo(18);
         assertThat(savedLog.getCategory()).isEqualTo("lunch");
-        assertThat(savedLog.getDate()).isNotBlank();
+        assertThat(savedLog.getDate()).isEqualTo("2026-05-13");
         assertThat(savedLog.getLoggedAt()).isNotNull();
     }
 }
