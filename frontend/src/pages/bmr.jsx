@@ -29,6 +29,9 @@ const BMR = () => {
             weight: data.weight,
             age: data.age,
             gender: data.gender,
+            activityLevel: data.exerciseLevel || "",
+            targetWeight: data.targetWeight ? String(data.targetWeight) : "",
+            weeklyChange: data.weeklyChange ? String(data.weeklyChange) : "",
           }));
           setBmi(data.bmi);
         })

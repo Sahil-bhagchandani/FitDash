@@ -44,6 +44,7 @@ public class UserService {
             user.setGoal(goal);
             user.setExerciseLevel(exerciseLevel);
             user.setTargetWeight(targetWeight);
+            user.setWeeklyChange(perWeekChange);
             user.setDailyCalories(calorieGoal);
 
             double waterGoal = calculateWaterGoal(user.getWeight(), exerciseLevel);

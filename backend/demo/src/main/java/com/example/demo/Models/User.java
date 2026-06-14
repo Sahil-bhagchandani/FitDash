@@ -20,6 +20,7 @@ public class User {
     private double bmr; // 🧮 Calorie goal after calculations
     private String exerciseLevel; // 🏋️ light, moderate, etc.
     private double targetWeight; // 🎯 User’s target weight
+    private double weeklyChange;
     private double dailyCalories;
     private double waterGoal;
     public double getWaterGoal() {
@@ -121,5 +122,13 @@ public class User {
     }
     public void setTargetWeight(double targetWeight) {
         this.targetWeight = targetWeight;
+    }
+
+    public double getWeeklyChange() {
+        return weeklyChange;
+    }
+
+    public void setWeeklyChange(double weeklyChange) {
+        this.weeklyChange = weeklyChange;
     }
 }

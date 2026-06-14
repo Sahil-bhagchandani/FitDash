@@ -23,7 +23,7 @@ function Login() {
       localStorage.setItem("username", response.username);
 
       setTimeout(() => {
-        navigate("/bmr");
+        navigate(response.hasBmrGoal ? "/dashboard" : "/bmr");
       }, 500);
     } catch (error) {
       alert("Login Failed: " + error.message);

@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2300" viewBox="0 0 1600 2300">
+  <defs>
+    <style>
+      .bg { fill: #f5f7fa; }
+      .frame { fill: #ffffff; stroke: #222222; stroke-width: 2; }
+      .panel { fill: #f2f4f7; stroke: #3a3a3a; stroke-width: 1.5; }
+      .line { stroke: #3a3a3a; stroke-width: 1.5; fill: none; }
+      .thin { stroke: #666666; stroke-width: 1; fill: none; }
+      .dark { fill: #d9dde3; stroke: #333333; stroke-width: 1.5; }
+      .text { font-family: Arial, Helvetica, sans-serif; fill: #111111; font-size: 18px; }
+      .small { font-family: Arial, Helvetica, sans-serif; fill: #222222; font-size: 14px; }
+      .tiny { font-family: Arial, Helvetica, sans-serif; fill: #333333; font-size: 12px; }
+      .title { font-family: Arial, Helvetica, sans-serif; fill: #111111; font-size: 34px; font-weight: 700; }
+      .section { font-family: Arial, Helvetica, sans-serif; fill: #111111; font-size: 22px; font-weight: 700; }
+      .label { font-family: Arial, Helvetica, sans-serif; fill: #111111; font-size: 15px; font-weight: 600; }
+      .button { fill: #e1e5ea; stroke: #222222; stroke-width: 1.5; }
+      .input { fill: #ffffff; stroke: #444444; stroke-width: 1.3; }
+      .sidebar { fill: #e8ebf0; stroke: #222222; stroke-width: 1.5; }
+      .nav { fill: #f0f2f5; stroke: #222222; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="2300"/>
+  <text class="title" x="60" y="70">FitDash Wireframes</text>
+  <text class="text" x="60" y="105">AI Nutrition, Calorie, Water Intake, BMI, BMR, and Health Suggestion Dashboard</text>
+
+  <!-- Signup -->
+  <g transform="translate(60,150)">
+    <rect class="frame" x="0" y="0" width="460" height="520" rx="8"/>
+    <text class="section" x="150" y="45">Signup Page</text>
+    <text class="label" x="50" y="85">Username</text>
+    <rect class="input" x="50" y="100" width="360" height="36" rx="4"/>
+    <text class="label" x="50" y="160">Email</text>
+    <rect class="input" x="50" y="175" width="360" height="36" rx="4"/>
+    <text class="label" x="50" y="235">Password</text>
+    <rect class="input" x="50" y="250" width="360" height="36" rx="4"/>
+    <text class="label" x="50" y="310">Age, Gender, Height, Weight</text>
+    <rect class="input" x="50" y="325" width="78" height="36" rx="4"/>
+    <rect class="input" x="144" y="325" width="82" height="36" rx="4"/>
+    <rect class="input" x="242" y="325" width="78" height="36" rx="4"/>
+    <rect class="input" x="336" y="325" width="74" height="36" rx="4"/>
+    <text class="label" x="50" y="385">Fitness Goal</text>
+    <rect class="input" x="50" y="400" width="360" height="36" rx="4"/>
+    <rect class="button" x="120" y="455" width="220" height="42" rx="6"/>
+    <text class="label" x="175" y="482">Create Account</text>
+  </g>
+
+  <!-- Login -->
+  <g transform="translate(570,150)">
+    <rect class="frame" x="0" y="0" width="460" height="360" rx="8"/>
+    <text class="section" x="168" y="45">Login Page</text>
+    <text class="label" x="50" y="100">Username</text>
+    <rect class="input" x="50" y="115" width="360" height="40" rx="4"/>
+    <text class="label" x="50" y="185">Password</text>
+    <rect class="input" x="50" y="200" width="360" height="40" rx="4"/>
+    <rect class="button" x="135" y="275" width="190" height="42" rx="6"/>
+    <text class="label" x="205" y="302">Login</text>
+  </g>
+
+  <!-- Dashboard -->
+  <g transform="translate(1080,150)">
+    <rect class="frame" x="0" y="0" width="460" height="520" rx="8"/>
+    <rect class="sidebar" x="0" y="0" width="120" height="520" rx="8"/>
+    <rect class="nav" x="120" y="0" width="340" height="64"/>
+    <text class="section" x="205" y="40">Dashboard</text>
+    <text class="small" x="20" y="55">FitDash</text>
+    <text class="tiny" x="20" y="105">Dashboard</text>
+    <text class="tiny" x="20" y="135">BMI BMR</text>
+    <text class="tiny" x="20" y="165">Calories</text>
+    <text class="tiny" x="20" y="195">Water</text>
+    <text class="tiny" x="20" y="225">AI Chat</text>
+    <text class="tiny" x="20" y="255">About</text>
+    <text class="label" x="150" y="105">Welcome, User</text>
+    <rect class="panel" x="150" y="135" width="120" height="110" rx="6"/>
+    <text class="small" x="178" y="192">BMI BMR</text>
+    <rect class="panel" x="300" y="135" width="120" height="110" rx="6"/>
+    <text class="small" x="326" y="192">Calories</text>
+    <rect class="panel" x="150" y="275" width="120" height="110" rx="6"/>
+    <text class="small" x="185" y="332">Water</text>
+    <rect class="panel" x="300" y="275" width="120" height="110" rx="6"/>
+    <text class="small" x="330" y="332">AI Coach</text>
+    <rect class="panel" x="150" y="420" width="270" height="55" rx="6"/>
+    <text class="small" x="178" y="454">Daily health summary card</text>
+  </g>
+
+  <!-- BMR -->
+  <g transform="translate(60,730)">
+    <rect class="frame" x="0" y="0" width="700" height="500" rx="8"/>
+    <rect class="sidebar" x="0" y="0" width="130" height="500" rx="8"/>
+    <rect class="nav" x="130" y="0" width="570" height="60"/>
+    <text class="section" x="310" y="38">BMI and BMR Calculator</text>
+    <text class="tiny" x="22" y="70">Dashboard</text>
+    <text class="tiny" x="22" y="100">BMI BMR</text>
+    <text class="tiny" x="22" y="130">Calories</text>
+    <text class="tiny" x="22" y="160">Water</text>
+    <text class="label" x="165" y="100">Basic Details</text>
+    <rect class="panel" x="165" y="120" width="220" height="220" rx="6"/>
+    <text class="small" x="190" y="160">Age: readonly</text>
+    <text class="small" x="190" y="200">Gender: readonly</text>
+    <text class="small" x="190" y="240">Height: readonly</text>
+    <text class="small" x="190" y="280">Weight: readonly</text>
+    <text class="small" x="190" y="320">BMI: calculated</text>
+    <text class="label" x="425" y="100">Goal Inputs</text>
+    <rect class="panel" x="425" y="120" width="230" height="220" rx="6"/>
+    <text class="small" x="450" y="158">Activity Level</text>
+    <rect class="input" x="450" y="172" width="175" height="34" rx="4"/>
+    <text class="small" x="450" y="232">Target Weight</text>
+    <rect class="input" x="450" y="246" width="175" height="34" rx="4"/>
+    <text class="small" x="450" y="305">Weekly Change</text>
+    <rect class="input" x="450" y="318" width="175" height="34" rx="4"/>
+    <rect class="button" x="280" y="395" width="230" height="45" rx="6"/>
+    <text class="label" x="325" y="423">Calculate Goals</text>
+  </g>
+
+  <!-- Calorie tracker -->
+  <g transform="translate(820,730)">
+    <rect class="frame" x="0" y="0" width="720" height="500" rx="8"/>
+    <rect class="sidebar" x="0" y="0" width="130" height="500" rx="8"/>
+    <rect class="nav" x="130" y="0" width="590" height="60"/>
+    <text class="section" x="340" y="38">Calorie Tracker</text>
+    <text class="tiny" x="22" y="70">Dashboard</text>
+    <text class="tiny" x="22" y="100">BMI BMR</text>
+    <text class="tiny" x="22" y="130">Calories</text>
+    <text class="tiny" x="22" y="160">Water</text>
+    <text class="label" x="165" y="100">Date</text>
+    <rect class="input" x="215" y="78" width="170" height="36" rx="4"/>
+    <rect class="panel" x="165" y="135" width="500" height="85" rx="6"/>
+    <text class="small" x="190" y="166">Calories Consumed</text>
+    <rect class="dark" x="190" y="185" width="420" height="20" rx="10"/>
+    <rect class="panel" x="165" y="245" width="220" height="170" rx="6"/>
+    <text class="label" x="195" y="280">Macro Summary</text>
+    <text class="small" x="195" y="315">Protein progress</text>
+    <text class="small" x="195" y="350">Carbs progress</text>
+    <text class="small" x="195" y="385">Fat progress</text>
+    <rect class="panel" x="425" y="245" width="240" height="170" rx="6"/>
+    <text class="label" x="475" y="280">Daily Insights</text>
+    <line class="thin" x1="455" y1="315" x2="635" y2="315"/>
+    <line class="thin" x1="455" y1="350" x2="635" y2="350"/>
+    <line class="thin" x1="455" y1="385" x2="635" y2="385"/>
+    <rect class="button" x="285" y="440" width="240" height="42" rx="6"/>
+    <text class="label" x="345" y="467">Add Food Entry</text>
+  </g>
+
+  <!-- Food popup -->
+  <g transform="translate(60,1290)">
+    <rect class="frame" x="0" y="0" width="460" height="430" rx="8"/>
+    <text class="section" x="120" y="45">Add Food Entry</text>
+    <text class="label" x="45" y="85">Food Name</text>
+    <rect class="input" x="45" y="100" width="370" height="36" rx="4"/>
+    <text class="label" x="45" y="160">Description or Ingredients</text>
+    <rect class="input" x="45" y="175" width="370" height="70" rx="4"/>
+    <text class="label" x="45" y="270">Portion</text>
+    <rect class="input" x="45" y="285" width="170" height="36" rx="4"/>
+    <text class="label" x="245" y="270">Category</text>
+    <rect class="input" x="245" y="285" width="170" height="36" rx="4"/>
+    <rect class="button" x="65" y="360" width="140" height="42" rx="6"/>
+    <text class="label" x="112" y="387">Cancel</text>
+    <rect class="button" x="240" y="360" width="160" height="42" rx="6"/>
+    <text class="label" x="275" y="387">Save Entry</text>
+  </g>
+
+  <!-- Water tracker -->
+  <g transform="translate(570,1290)">
+    <rect class="frame" x="0" y="0" width="460" height="430" rx="8"/>
+    <text class="section" x="120" y="45">Water Tracker</text>
+    <text class="label" x="55" y="90">Today Water Intake</text>
+    <rect class="panel" x="55" y="110" width="350" height="105" rx="6"/>
+    <text class="small" x="185" y="145">Glasses: 0 / 12</text>
+    <rect class="button" x="125" y="165" width="50" height="34" rx="5"/>
+    <text class="label" x="145" y="188">-</text>
+    <circle class="dark" cx="230" cy="182" r="22"/>
+    <rect class="button" x="285" y="165" width="50" height="34" rx="5"/>
+    <text class="label" x="304" y="188">+</text>
+    <text class="label" x="55" y="255">Daily Progress</text>
+    <rect class="dark" x="55" y="275" width="350" height="24" rx="12"/>
+    <text class="label" x="55" y="340">Weekly Chart</text>
+    <rect class="panel" x="55" y="360" width="350" height="45" rx="6"/>
+    <line class="thin" x1="85" y1="390" x2="375" y2="390"/>
+    <rect class="dark" x="100" y="372" width="20" height="18"/>
+    <rect class="dark" x="145" y="365" width="20" height="25"/>
+    <rect class="dark" x="190" y="378" width="20" height="12"/>
+    <rect class="dark" x="235" y="360" width="20" height="30"/>
+    <rect class="dark" x="280" y="368" width="20" height="22"/>
+    <rect class="dark" x="325" y="356" width="20" height="34"/>
+  </g>
+
+  <!-- AI suggestions -->
+  <g transform="translate(1080,1290)">
+    <rect class="frame" x="0" y="0" width="460" height="430" rx="8"/>
+    <text class="section" x="105" y="45">AI Suggestions</text>
+    <text class="label" x="35" y="85">Suggested Questions</text>
+    <rect class="button" x="35" y="105" width="390" height="32" rx="5"/>
+    <text class="tiny" x="55" y="126">What should I eat today?</text>
+    <rect class="button" x="35" y="145" width="390" height="32" rx="5"/>
+    <text class="tiny" x="55" y="166">How can I improve protein intake?</text>
+    <rect class="panel" x="35" y="200" width="390" height="150" rx="6"/>
+    <text class="small" x="55" y="230">User message</text>
+    <rect class="input" x="210" y="215" width="180" height="32" rx="5"/>
+    <text class="small" x="55" y="285">AI response</text>
+    <rect class="input" x="70" y="300" width="280" height="32" rx="5"/>
+    <rect class="input" x="35" y="375" width="300" height="36" rx="5"/>
+    <rect class="button" x="350" y="375" width="75" height="36" rx="5"/>
+    <text class="label" x="372" y="399">Send</text>
+  </g>
+
+  <!-- About -->
+  <g transform="translate(310,1780)">
+    <rect class="frame" x="0" y="0" width="980" height="390" rx="8"/>
+    <rect class="sidebar" x="0" y="0" width="145" height="390" rx="8"/>
+    <rect class="nav" x="145" y="0" width="835" height="58"/>
+    <text class="section" x="510" y="38">About FitDash</text>
+    <text class="tiny" x="25" y="70">Dashboard</text>
+    <text class="tiny" x="25" y="100">BMI BMR</text>
+    <text class="tiny" x="25" y="130">Calories</text>
+    <text class="tiny" x="25" y="160">Water</text>
+    <text class="tiny" x="25" y="190">AI Chat</text>
+    <text class="label" x="185" y="100">Project Introduction</text>
+    <rect class="panel" x="185" y="120" width="745" height="70" rx="6"/>
+    <line class="thin" x1="210" y1="145" x2="900" y2="145"/>
+    <line class="thin" x1="210" y1="168" x2="820" y2="168"/>
+    <text class="label" x="185" y="230">Feature Cards</text>
+    <rect class="panel" x="185" y="250" width="160" height="80" rx="6"/>
+    <text class="small" x="250" y="295">AI</text>
+    <rect class="panel" x="375" y="250" width="160" height="80" rx="6"/>
+    <text class="small" x="420" y="295">Calories</text>
+    <rect class="panel" x="565" y="250" width="160" height="80" rx="6"/>
+    <text class="small" x="620" y="295">Water</text>
+    <rect class="panel" x="755" y="250" width="175" height="80" rx="6"/>
+    <text class="small" x="815" y="295">Goals</text>
+  </g>
+
+  <text class="small" x="60" y="2245">Generated for FitDash project documentation. Low fidelity SVG wireframe sheet.</text>
+</svg>

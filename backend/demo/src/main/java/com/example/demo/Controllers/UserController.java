@@ -38,6 +38,7 @@ public class UserController {
                     Map<String, Object> response = new HashMap<>();
                     response.put("userId", user.getId());
                     response.put("username", user.getUsername());
+                    response.put("hasBmrGoal", user.getDailyCalories() > 0);
                     return ResponseEntity.ok(response);
                 })
 
@@ -79,6 +80,13 @@ public class UserController {
             info.put("height", user.getHeight());
             info.put("gender", user.getGender());
             info.put("username", user.getUsername());
+            info.put("bmr", user.getBmr());
+            info.put("exerciseLevel", user.getExerciseLevel());
+            info.put("targetWeight", user.getTargetWeight());
+            info.put("weeklyChange", user.getWeeklyChange());
+            info.put("dailyCalories", user.getDailyCalories());
+            info.put("waterGoal", user.getWaterGoal());
+            info.put("hasBmrGoal", user.getDailyCalories() > 0);
 
             // Calculate BMI
             double bmi = userService.calculateBMI(user);

@@ -65,6 +65,7 @@ class UserServiceTest {
         assertThat(savedUser.getWaterGoal()).isEqualTo(2.81);
         assertThat(savedUser.getExerciseLevel()).isEqualTo("moderate");
         assertThat(savedUser.getTargetWeight()).isEqualTo(75);
+        assertThat(savedUser.getWeeklyChange()).isEqualTo(0.5);
     }
 
     @Test
