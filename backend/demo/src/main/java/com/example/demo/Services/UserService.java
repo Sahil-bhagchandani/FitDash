@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Models.User;
@@ -14,13 +15,40 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public User registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     public Optional<User> loginUser(String username, String password) {
-        return userRepository.findByUsername(username)
-                .filter(u -> u.getPassword().equals(password));
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User user = userOpt.get();
+        String storedPassword = user.getPassword();
+        if (storedPassword == null || storedPassword.isBlank()) {
+            return Optional.empty();
+        }
+
+        if (isBCryptHash(storedPassword)) {
+            return passwordEncoder.matches(password, storedPassword) ? Optional.of(user) : Optional.empty();
+        }
+
+        if (storedPassword.equals(password)) {
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+            return Optional.of(user);
+        }
+
+        return Optional.empty();
+    }
+
+    private boolean isBCryptHash(String password) {
+        return password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$");
     }
 
     public Optional<User> getUserByUsername(String username) {

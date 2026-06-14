@@ -8,6 +8,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,22 @@ class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
+
+    @Test
+    void registerUserStoresHashedPassword() {
+        User user = new User();
+        user.setUsername("sahil");
+        user.setPassword("secret");
+
+        userService.registerUser(user);
+
+        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(captor.capture());
+        User savedUser = captor.getValue();
+
+        assertThat(savedUser.getPassword()).isNotEqualTo("secret");
+        assertThat(new BCryptPasswordEncoder().matches("secret", savedUser.getPassword())).isTrue();
+    }
 
     @Test
     void loginUserReturnsUserWhenPasswordMatches() {
